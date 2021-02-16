@@ -11,13 +11,17 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
-    api.get('pokemon')
-      .then(res => {
-        console.log(res.data.results);
-        setPokemons(res.data.results)
-      })
-      .catch(err => console.error(err));
+    fetchPokemons();
   }, []);
+
+  async function fetchPokemons() {
+    try {
+      const response = await api.get('pokemon');
+      setPokemons(response.data.results)
+    } catch (error) {
+      console.error(error); 
+    }
+  }
 
   function handleAddPokemon() {
     setPokemons([...pokemons, {
